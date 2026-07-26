@@ -186,7 +186,7 @@ export default function LandingPage({ theme, setTheme }) {
         padding: '12px 30px',
         display: 'flex',
         alignItems: 'center',
-        justify-content: 'space-between',
+        justifyContent: 'space-between',
         borderBottom: '2px solid #e2e8f0',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.03)'
       }}>
@@ -350,7 +350,7 @@ export default function LandingPage({ theme, setTheme }) {
 
       {/* 5. REALISTIC LIGHT THEME LANDING SECTION & PERFECT EQUAL HEIGHT SIDEBAR */}
       <section id="featureDesk" style={{ maxWidth: '1400px', margin: '30px auto', padding: '0 30px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: '24px', alignItems: 'stretch' }}>
-        <!-- Left Section: Banner, Metrics, Feature Services & IT Bulletins -->
+        {/* Left Section: Banner, Metrics, Feature Services & IT Bulletins */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
           {/* Title Banner */}
           <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #00796b 100%)', color: '#ffffff', borderRadius: '14px', padding: '26px 30px', boxShadow: '0 10px 25px -5px rgba(0, 121, 107, 0.25)', position: 'relative', overflow: 'hidden' }}>
@@ -454,7 +454,7 @@ export default function LandingPage({ theme, setTheme }) {
           </div>
         </div>
 
-        <!-- Right Side Flex Column (100% Equal Height to Left Column) -->
+        {/* Right Side Flex Column (100% Equal Height to Left Column) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '22px', height: '100%' }}>
           {/* 1. Compact Login Gateway Panel */}
           <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0, 121, 107, 0.12)', padding: '24px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
@@ -487,7 +487,7 @@ export default function LandingPage({ theme, setTheme }) {
                   boxShadow: '0 4px 15px rgba(0, 121, 107, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
-                  justify-content: 'center',
+                  justifyContent: 'center',
                   gap: '8px'
                 }}
               >
@@ -510,7 +510,7 @@ export default function LandingPage({ theme, setTheme }) {
                       boxShadow: '0 4px 15px rgba(0, 121, 107, 0.3)',
                       display: 'flex',
                       alignItems: 'center',
-                      justify-content: 'center',
+                      justifyContent: 'center',
                       gap: '8px'
                     }}
                   >

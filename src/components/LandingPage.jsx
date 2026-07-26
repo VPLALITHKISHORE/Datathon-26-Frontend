@@ -7,13 +7,26 @@ export default function LandingPage({ theme, setTheme }) {
 
   let isSignedIn = false;
   let isLoaded = true;
+  let signOut = async () => {};
   try {
     const auth = useAuth();
     isSignedIn = !!auth?.isSignedIn;
     isLoaded = auth?.isLoaded !== false;
+    if (auth?.signOut) {
+      signOut = auth.signOut;
+    }
   } catch (e) {
     console.warn("Clerk auth hook fallback:", e);
   }
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (e) {
+      console.error("Sign out failed:", e);
+    }
+    window.location.href = '/';
+  };
 
   // State
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -182,13 +195,7 @@ export default function LandingPage({ theme, setTheme }) {
                 </button>
 
                 <button
-                  onClick={() => {
-                    try {
-                      const auth = useAuth();
-                      if (auth?.signOut) auth.signOut();
-                    } catch (e) {}
-                    window.location.href = '/';
-                  }}
+                  onClick={handleLogout}
                   style={{
                     background: 'rgba(244, 63, 94, 0.15)',
                     border: '1px solid rgba(244, 63, 94, 0.3)',
@@ -435,27 +442,45 @@ export default function LandingPage({ theme, setTheme }) {
             </p>
 
             {isSignedIn ? (
-              <button
-                onClick={() => navigate('/dashboard')}
-                style={{
-                  width: '100%',
-                  background: 'linear-gradient(135deg, #00796b 0%, #0284c7 100%)',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '11px 18px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(0, 121, 107, 0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
-                }}
-              >
-                🏛️ Enter Admin Dashboard
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  style={{
+                    width: '100%',
+                    background: 'linear-gradient(135deg, #00796b 0%, #0284c7 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '11px 18px',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 121, 107, 0.3)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                >
+                  🏛️ Enter Admin Dashboard
+                </button>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    width: '100%',
+                    background: '#ffffff',
+                    border: '1.5px solid #fecdd3',
+                    color: '#e11d48',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  🚪 Logout Account
+                </button>
+              </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
                 <SignInButton mode="modal">

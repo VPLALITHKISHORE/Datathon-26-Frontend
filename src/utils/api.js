@@ -12,7 +12,7 @@ export const getApiUrl = (path) => {
     return cleanPath;
   }
   
-  // Deployed Zoho AppSail backend URL
-  const baseUrl = 'https://backend-50044159584.development.catalystappsail.in';
+  // Deployed Zoho AppSail backend URL (loaded dynamically from env or fallback)
+  const baseUrl = import.meta.env.VITE_API_URL;
   return `${baseUrl}${cleanPath}`;
 };

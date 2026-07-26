@@ -8,6 +8,7 @@ import CatalystKB from './components/CatalystKB';
 import LandingPage from './components/LandingPage';
 import CrimeMap from './components/CrimeMap';
 import DashboardHub from './components/DashboardHub';
+import { getApiUrl } from './utils/api';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function AppContent() {
     // Check FastAPI backend health on load
     const checkHealth = async () => {
       try {
-        const res = await fetch('/api/health');
+        const res = await fetch(getApiUrl('/api/health'));
         if (res.ok) {
           const data = await res.json();
           setStatus(data);

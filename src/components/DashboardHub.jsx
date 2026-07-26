@@ -371,6 +371,27 @@ export default function DashboardHub({ theme }) {
 
           {/* Quick Access Menu */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <button
+              onClick={() => navigate('/')}
+              style={{
+                background: 'linear-gradient(135deg, #00796b, #0284c7)',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '1rem',
+                textAlign: 'left',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem',
+                boxShadow: '0 4px 12px rgba(0, 121, 107, 0.25)'
+              }}
+            >
+              <strong style={{ fontSize: '0.92rem', fontWeight: '700' }}>🏠 Return to Home Page</strong>
+              <span style={{ fontSize: '0.75rem', opacity: 0.9, lineHeight: '1.3' }}>Go back to official Karnataka State Police web portal.</span>
+            </button>
+
             {[
               { path: '/chat', label: '💬 AI Chat Assistant', desc: 'Query database schemas & run SQL using natural language.' },
               { path: '/insights', label: '🗺️ Sociological Insights Map', desc: 'Explore vector GIS maps & run Zoho QuickML simulators.' },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserButton, useAuth } from '@clerk/react';
 import gokLogo from '../assets/Seal_of_Karnataka.png';
 
@@ -7,6 +7,7 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
   const { isSignedIn } = useAuth();
   const isHealthy = status?.status === 'healthy' && status?.mcp_connected;
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <header className="glass" style={{
@@ -41,7 +42,7 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
           }}
           onError={(e) => {
             e.target.style.display = 'none';
-            e.target.nextSibling.style.display = 'flex';
+            if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
           }}
         />
         <div 
@@ -74,16 +75,19 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
       {/* Middle Navigation Tabs */}
       <div style={{
         display: 'flex',
-        gap: '0.5rem',
+        gap: '0.35rem',
         background: 'rgba(0, 0, 0, 0.05)',
         padding: '0.25rem',
         borderRadius: '10px',
-        border: '1px solid var(--border-color)'
+        border: '1px solid var(--border-color)',
+        overflowX: 'auto'
       }}>
         {[
+          { path: '/', label: '🏠 Home' },
+          { path: '/dashboard', label: '📊 Dashboard' },
           { path: '/chat', label: '💬 Chat Assistant' },
           { path: '/insights', label: '🗺️ Sociological Insights' },
-          { path: '/network', label: '🕸️ Network & Patterns' },
+          { path: '/network', label: '🕸️ Network Topology' },
           { path: '/catalyst', label: '💼 FIR RAG-Chatbot' }
         ].map(tab => {
           const isActive = location.pathname === tab.path;
@@ -93,18 +97,19 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
               to={tab.path}
               style={{
                 background: isActive ? 'var(--bg-card)' : 'transparent',
-                border: isActive ? '1px solid var(--border-color)' : 'none',
+                border: isActive ? '1px solid var(--border-color)' : '1px solid transparent',
                 color: isActive ? 'var(--text-main)' : 'var(--text-muted)',
-                padding: '0.45rem 1rem',
+                padding: '0.4rem 0.85rem',
                 borderRadius: '8px',
-                fontSize: '0.85rem',
+                fontSize: '0.82rem',
                 fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.35rem',
-                textDecoration: 'none'
+                gap: '0.3rem',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap'
               }}
               onMouseOver={(e) => {
                 if (!isActive) e.currentTarget.style.color = 'var(--text-main)';
@@ -119,9 +124,30 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
         })}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-        {/* Theme Toggle Button */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        {/* Direct Home Navigation Button */}
+        <button
+          onClick={() => navigate('/')}
+          style={{
+            background: 'linear-gradient(135deg, #00796b, #0284c7)',
+            color: '#ffffff',
+            border: 'none',
+            padding: '0.45rem 0.85rem',
+            borderRadius: '8px',
+            fontSize: '0.8rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            boxShadow: '0 2px 6px rgba(0, 121, 107, 0.2)'
+          }}
+          title="Return to Official Portal Home Page"
+        >
+          🏠 Home Page
+        </button>
 
+        {/* Theme Toggle Button */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="notranslate"
@@ -187,6 +213,29 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
           />
           {isHealthy ? 'Connected' : 'Connecting...'}
         </div>
+
+        {/* Logout Button */}
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            style={{
+              background: 'rgba(244, 63, 94, 0.1)',
+              border: '1px solid rgba(244, 63, 94, 0.3)',
+              color: 'var(--accent-rose)',
+              padding: '0.45rem 0.75rem',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3rem'
+            }}
+            title="Logout and return to main portal"
+          >
+            🚪 Logout
+          </button>
+        )}
 
         {/* Profile Button */}
         <div 

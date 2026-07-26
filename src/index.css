@@ -76,13 +76,13 @@ body {
   color: var(--text-main);
   background-image: var(--bg-gradient);
   background-attachment: fixed;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto !important;
   transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
 }
 
 #root {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }

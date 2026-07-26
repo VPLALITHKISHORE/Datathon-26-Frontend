@@ -15,13 +15,6 @@ export default function LandingPage({ theme, setTheme }) {
     console.warn("Clerk auth hook fallback:", e);
   }
 
-  // Automatically navigate to dashboard when signed in
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      navigate('/dashboard');
-    }
-  }, [isLoaded, isSignedIn, navigate]);
-
   // State
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentLang, setCurrentLang] = useState('EN');

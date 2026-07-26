@@ -125,28 +125,6 @@ export default function Navbar({ status, provider, setProvider, theme, setTheme,
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        {/* Direct Home Navigation Button */}
-        <button
-          onClick={() => navigate('/')}
-          style={{
-            background: 'linear-gradient(135deg, #00796b, #0284c7)',
-            color: '#ffffff',
-            border: 'none',
-            padding: '0.45rem 0.85rem',
-            borderRadius: '8px',
-            fontSize: '0.8rem',
-            fontWeight: '600',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            boxShadow: '0 2px 6px rgba(0, 121, 107, 0.2)'
-          }}
-          title="Return to Official Portal Home Page"
-        >
-          🏠 Home Page
-        </button>
-
         {/* Theme Toggle Button */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}

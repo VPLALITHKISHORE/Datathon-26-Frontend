@@ -536,31 +536,65 @@ export default function LandingPage({ theme, setTheme }) {
 
             <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0' }}>
               {[
-                '📜 Legal Bulletin (Fourth Edition)',
-                '📜 Legal Bulletin (Third Edition)',
-                '📜 Legal Bulletin (Second Edition)',
-                '📜 Legal Bulletin (First Edition)',
-                '📢 State Police Chief tells personnel to refrain from random vehicle checks.',
-                '📱 Towards a Drug-Free Karnataka Empowering Citizens through Android App',
-                '🛡️ Hit and Run Motor Accident Compensation Scheme, 2022',
-                '📊 Monthly Crime Statistics',
-                '📘 "A comprehensive overview and updates on the new legislation."',
-                '🎥 Live Webcast of Police Commemoration Day Function, National Police Memorial, New Delhi',
-                '⚖️ Mob violence/ Lynching Victim Compensation Scheme 2023.',
-                '🌐 Central Equipment Identity Register (CEIR) Portal',
-                '🎬 Video guide for block the stolen/lost mobile phones',
-                '🚨 e - FIR a Digital Platform for Reporting of Stolen Vehicles.',
-                '🎥 Process of Online Police Services - Video Guide',
-                '🔒 Information Security Awareness',
-                '🤝 National Narcotics Coordination Portal (NCORD)',
-                '📢 Circular regarding enforcement of Noise Pollution.',
-                '▶️ Police aur Seva YouTube channel collection of short video clips.',
-                '💳 Bengaluru Traffic Police have enabled payment of fine amount using Paytm.'
-              ].map((newsItem, i) => (
-                <div key={i} onClick={() => alert(`Opening ${newsItem}...`)} style={{ padding: '11px 16px', borderBottom: '1px solid #f1f5f9', fontSize: '12.5px', color: '#1e293b', cursor: 'pointer' }}>
-                  {newsItem}
-                </div>
-              ))}
+                { title: '📜 Legal Bulletin (Fourth Edition)', url: 'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(Fourth%20Edition).pdf' },
+                { title: '📜 Legal Bulletin (Third Edition)', url: 'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(Third%20Edition).pdf' },
+                { title: '📜 Legal Bulletin (Second Edition)', url: 'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(Second%20Edition).pdf' },
+                { title: '📜 Legal Bulletin (First Edition)', url: 'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(First%20Edition).pdf' },
+                { title: '📢 State Police Chief tells personnel to refrain from random vehicle checks.', url: null },
+                { title: '📱 Towards a Drug-Free Karnataka Empowering Citizens through Android App', url: null },
+                { title: '🛡️ Hit and Run Motor Accident Compensation Scheme, 2022', url: null },
+                { title: '📊 Monthly Crime Statistics', url: 'https://ksp.karnataka.gov.in/new-page/Monthly%20Crime%20Review/en' },
+                { title: '📘 "A comprehensive overview and updates on the new legislation."', url: null },
+                { title: '🎥 Live Webcast of Police Commemoration Day Function, National Police Memorial, New Delhi', url: null },
+                { title: '⚖️ Mob violence/ Lynching Victim Compensation Scheme 2023.', url: null },
+                { title: '🌐 Central Equipment Identity Register (CEIR) Portal', url: null },
+                { title: '🎬 Video guide for block the stolen/lost mobile phones', url: null },
+                { title: '🚨 e - FIR a Digital Platform for Reporting of Stolen Vehicles.', url: null },
+                { title: '🎥 Process of Online Police Services - Video Guide', url: null },
+                { title: '🔒 Information Security Awareness', url: null },
+                { title: '🤝 National Narcotics Coordination Portal (NCORD)', url: null },
+                { title: '📢 Circular regarding enforcement of Noise Pollution.', url: null },
+                { title: '▶️ Police aur Seva YouTube channel collection of short video clips.', url: null },
+                { title: '💳 Bengaluru Traffic Police have enabled payment of fine amount using Paytm.', url: null }
+              ].map((newsItem, i) => {
+                const pdfLinks = [
+                  'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(Fourth%20Edition).pdf',
+                  'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(Third%20Edition).pdf',
+                  'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(Second%20Edition).pdf',
+                  'https://ksp.karnataka.gov.in/storage/pdf-files/Legal%20Bulletin%20(First%20Edition).pdf',
+                  'https://ksp.karnataka.gov.in/new-page/Monthly%20Crime%20Review/en'
+                ];
+
+                const handleClick = () => {
+                  const targetUrl = newsItem.url || pdfLinks[Math.floor(Math.random() * pdfLinks.length)];
+                  window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                };
+
+                return (
+                  <div
+                    key={i}
+                    onClick={handleClick}
+                    style={{
+                      padding: '11px 16px',
+                      borderBottom: '1px solid #f1f5f9',
+                      fontSize: '12.5px',
+                      color: '#1e293b',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s ease, color 0.2s ease'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.background = '#f0fdf4';
+                      e.currentTarget.style.color = '#00796b';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = '#1e293b';
+                    }}
+                  >
+                    {newsItem.title}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

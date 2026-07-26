@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DataTable from './DataTable';
 import SQLBadge from './SQLBadge';
+import { getApiUrl } from '../utils/api';
 
 function parseInlineMarkdown(text) {
   const parts = [];
@@ -57,7 +58,7 @@ export default function ChatWindow({ provider }) {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hello! I am your AI Database Assistant connected directly to your AWS RDS PostgreSQL database via MCP (Model Context Protocol). Ask me questions about your database tables, records, or request direct SQL queries!",
+      content: "Welcome to Karnataka Crime Intelligence Portal. I am connected to the Crime Database and ready to assist with SQL queries, analytics, or investigations. How can I help you today?",
       executedQueries: []
     }
   ]);
@@ -83,7 +84,7 @@ export default function ChatWindow({ provider }) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(getApiUrl('/api/chat'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -124,7 +125,7 @@ export default function ChatWindow({ provider }) {
 
   const handleExportPDF = async () => {
     try {
-      const response = await fetch('/api/export-pdf', {
+      const response = await fetch(getApiUrl('/api/export-pdf'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

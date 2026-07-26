@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getApiUrl } from '../utils/api';
 
 export default function CatalystKB() {
   const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'true';
@@ -94,7 +95,7 @@ export default function CatalystKB() {
   const fetchDocuments = async () => {
     setDocLoading(true);
     try {
-      const res = await fetch('/api/catalyst/documents');
+      const res = await fetch(getApiUrl('/api/catalyst/documents'));
       if (res.ok) {
         const data = await res.json();
         setDocuments(data);
@@ -110,7 +111,7 @@ export default function CatalystKB() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('/api/catalyst/settings');
+      const res = await fetch(getApiUrl('/api/catalyst/settings'));
       if (res.ok) {
         const data = await res.json();
         setSettings(data);
@@ -124,7 +125,7 @@ export default function CatalystKB() {
     e.preventDefault();
     setSaveStatus('saving');
     try {
-      const res = await fetch('/api/catalyst/settings', {
+      const res = await fetch(getApiUrl('/api/catalyst/settings'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings)
@@ -213,7 +214,7 @@ export default function CatalystKB() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('/api/catalyst/upload', {
+      const res = await fetch(getApiUrl('/api/catalyst/upload'), {
         method: 'POST',
         body: formData
       });
@@ -249,7 +250,7 @@ export default function CatalystKB() {
     setChatLoading(true);
 
     try {
-      const res = await fetch('/api/catalyst/chat', {
+      const res = await fetch(getApiUrl('/api/catalyst/chat'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

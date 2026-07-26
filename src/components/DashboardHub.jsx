@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../utils/api';
 
 export default function DashboardHub({ theme }) {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function DashboardHub({ theme }) {
     const fetchNews = async () => {
       try {
         setIsLoading(true);
-        const url = '/api/karnataka-news';
+        const url = getApiUrl('/api/karnataka-news');
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error('Failed to fetch RSS news feed');
@@ -33,7 +34,7 @@ export default function DashboardHub({ theme }) {
   const getProxiedImageUrl = (url) => {
     if (!url) return '';
     const encodedUrl = encodeURIComponent(url);
-    return `/api/proxy-image?url=${encodedUrl}`;
+    return getApiUrl(`/api/proxy-image?url=${encodedUrl}`);
   };
 
   const getCategory = (title) => {

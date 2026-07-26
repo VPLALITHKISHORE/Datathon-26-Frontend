@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getApiUrl } from '../utils/api';
 
 export default function AnalyticsDashboard() {
   const [data, setData] = useState(null);
@@ -23,7 +24,7 @@ export default function AnalyticsDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/analytics');
+      const res = await fetch(getApiUrl('/api/analytics'));
       if (!res.ok) {
         throw new Error(`Failed to fetch analytics: ${res.statusText}`);
       }

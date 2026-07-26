@@ -4,7 +4,16 @@ import { useAuth, SignInButton, SignUpButton } from '@clerk/react';
 
 export default function LandingPage({ theme, setTheme }) {
   const navigate = useNavigate();
-  const { isSignedIn, isLoaded } = useAuth();
+
+  let isSignedIn = false;
+  let isLoaded = true;
+  try {
+    const auth = useAuth();
+    isSignedIn = !!auth?.isSignedIn;
+    isLoaded = auth?.isLoaded !== false;
+  } catch (e) {
+    console.warn("Clerk auth hook fallback:", e);
+  }
 
   // State
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -90,96 +99,6 @@ export default function LandingPage({ theme, setTheme }) {
 
   return (
     <div style={{ background: '#f1f5f9', color: '#0f172a', minHeight: '100vh', fontFamily: "'Poppins', sans-serif" }}>
-      {/* 1. TOP UTILITY HEADER BAR */}
-      <div style={{
-        background: 'linear-gradient(90deg, #00796b 0%, #004d40 100%)',
-        color: '#ffffff',
-        fontSize: '12.5px',
-        padding: '6px 30px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          {isSignedIn ? (
-            <button
-              onClick={() => navigate('/dashboard')}
-              style={{
-                background: 'rgba(255, 255, 255, 0.22)',
-                border: '1px solid rgba(255, 255, 255, 0.4)',
-                color: '#ffffff',
-                padding: '3px 12px',
-                borderRadius: '4px',
-                fontSize: '11.5px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-            >
-              🏛️ Launch Dashboard
-            </button>
-          ) : (
-            <SignInButton mode="modal">
-              <button
-                style={{
-                  background: 'rgba(255, 255, 255, 0.18)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  color: '#ffffff',
-                  padding: '3px 12px',
-                  borderRadius: '4px',
-                  fontSize: '11.5px',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" y1="12" x2="3" y2="12" /></svg>
-                Sign In
-              </button>
-            </SignInButton>
-          )}
-
-          <button
-            onClick={() => setCurrentLang(currentLang === 'EN' ? 'KN' : 'EN')}
-            style={{
-              background: 'rgba(255, 255, 255, 0.18)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '3px 12px',
-              borderRadius: '4px',
-              fontSize: '11.5px',
-              fontWeight: '500',
-              cursor: 'pointer'
-            }}
-          >
-            {currentLang === 'EN' ? 'ಕನ್ನಡ' : 'English'}
-          </button>
-          <a href="#" style={{ color: '#e0f2fe', fontWeight: 400 }}>Employees-Corner</a>
-          <a href="#" style={{ color: '#e0f2fe', fontWeight: 400 }}>Official Website of GoK</a>
-          <a href="#" style={{ color: '#e0f2fe', fontWeight: 400 }}>Corona Related Information</a>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#ff0000', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', cursor: 'pointer' }}>▶</span>
-            <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', cursor: 'pointer' }}>📷</span>
-            <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#1877f2', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', cursor: 'pointer' }}>f</span>
-            <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#1da1f2', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', cursor: 'pointer' }}>𝕏</span>
-          </div>
-          <span style={{ background: '#dc2626', color: '#ffffff', padding: '2px 10px', borderRadius: '12px', fontWeight: 700, fontSize: '12px' }}>Emergency Number : 112</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0, 0, 0, 0.2)', padding: '2px 6px', borderRadius: '4px' }}>
-            <span style={{ fontSize: '11px', marginRight: '4px' }}>Font Size</span>
-            <button onClick={() => adjustFontSize(1)} style={{ background: 'none', border: 'none', color: '#fff', fontWeight: '700', padding: '1px 5px', cursor: 'pointer' }}>+</button>
-            <button onClick={() => adjustFontSize(-1)} style={{ background: 'none', border: 'none', color: '#fff', fontWeight: '700', padding: '1px 5px', cursor: 'pointer' }}>-</button>
-          </div>
-        </div>
-      </div>
-
       {/* 2. MAIN HEADER & DIGNITARIES */}
       <header style={{
         background: '#ffffff',

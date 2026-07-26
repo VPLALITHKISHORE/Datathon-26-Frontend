@@ -1,19 +1,25 @@
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { ClerkProvider } from '@clerk/react';
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import './index.css';
+import App from './App.jsx';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key. Please ensure VITE_CLERK_PUBLISHABLE_KEY is configured in your .env.local file.");
-}
+const rootElement = document.getElementById('root');
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+if (PUBLISHABLE_KEY) {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+        <App />
+      </ClerkProvider>
+    </StrictMode>
+  );
+} else {
+  createRoot(rootElement).render(
+    <StrictMode>
       <App />
-    </ClerkProvider>
-  </StrictMode>,
-)
+    </StrictMode>
+  );
+}

@@ -16,8 +16,21 @@ function AppContent() {
   const [provider, setProvider] = useState('gemini');
   
   // Theme and Clerk Authentication
-  const { isSignedIn, isLoaded, signOut } = useAuth();
-  const [theme, setTheme] = useState(() => localStorage.getItem('portal_theme') || 'dark');
+  let isSignedIn = false;
+  let isLoaded = true;
+  let signOut = () => {};
+  try {
+    const auth = useAuth();
+    if (auth && typeof auth.isLoaded === 'boolean') {
+      isLoaded = auth.isLoaded;
+      isSignedIn = !!auth.isSignedIn;
+      if (auth.signOut) signOut = auth.signOut;
+    }
+  } catch (e) {
+    isLoaded = true;
+    isSignedIn = false;
+  }
+  const [theme, setTheme] = useState(() => localStorage.getItem('portal_theme') || 'light');
 
   const isAuthenticated = !!(isLoaded && isSignedIn);
 

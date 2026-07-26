@@ -136,6 +136,51 @@ App.jsx (Router + Auth Gatekeeping + Theme Context)
 
 ---
 
+---
+
+## Backend Architecture Diagram
+
+Below is the visual map of how the frontend, backend server, database layers, and external integrations connect:
+
+```mermaid
+graph TD
+    Client[React Frontend] -->|REST HTTP requests| FastAPI[FastAPI Server: main.py]
+    
+    subgraph Core Backend Modules
+        FastAPI -->|Computes dashboard metrics| Analytics[analytics.py]
+        FastAPI -->|Chat loops / process_chat| LLM[llm_handler.py]
+        FastAPI -->|Chat exports| PDF[pdf_generator.py]
+        FastAPI -->|Doc Sync & RAG API| Zoho_KB[catalyst_kb.py]
+    end
+    
+    subgraph Database Layer
+        Analytics -->|psycopg2 direct connection| DB[(PostgreSQL Database)]
+        
+        %% LLM Database exploration flow
+        LLM -->|Invokes tools| MCP_Client[mcp_client.py: PostgresMCPClient]
+        MCP_Client -->|Launches Node subprocess| MCP_Server[Postgres MCP Server]
+        MCP_Server -->|Executes query| DB
+    end
+    
+    subgraph External AI Services
+        LLM -->|Generative Chat API| Gemini[Google Gemini SDK]
+        Zoho_KB -->|Document store link| Zoho_Catalyst[Zoho Catalyst Cloud]
+        Zoho_KB -->|Risk calculations| Zoho_QuickML[Zoho QuickML Engine]
+    end
+
+    classDef module fill:#2b3a4a,stroke:#3b82f6,stroke-width:2px,color:#fff;
+    classDef database fill:#1a233a,stroke:#10b981,stroke-width:2px,color:#fff;
+    classDef external fill:#2d1a3a,stroke:#8b5cf6,stroke-width:2px,color:#fff;
+    
+    class Analytics,LLM,PDF,Zoho_KB,MCP_Client module;
+    class DB database;
+    class Gemini,Zoho_Catalyst,Zoho_QuickML external;
+```
+
+---
+
+
+
 ## 3. Backend API Endpoints
 
 ```

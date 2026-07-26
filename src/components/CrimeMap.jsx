@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { getApiUrl } from '../utils/api';
 
 // Karnataka districts with real GPS coordinates
 const DISTRICTS = [
@@ -185,7 +186,7 @@ export default function CrimeMap() {
 
   // ── Fetch district overview on mount ──
   useEffect(() => {
-    fetch('/api/map/districts')
+    fetch(getApiUrl('/api/map/districts'))
       .then(r => r.json())
       .then(d => setDistrictData(d.districts || {}))
       .catch(e => console.error('[CrimeMap] districts fetch failed', e));
@@ -202,7 +203,7 @@ export default function CrimeMap() {
     setTrendsLoading(true);
     setCrimeFilter('All');
 
-    fetch(`/api/map/insights?district=${encodeURIComponent(selected.name)}`)
+    fetch(getApiUrl(`/api/map/insights?district=${encodeURIComponent(selected.name)}`))
       .then(r => r.json())
       .then(d => {
         setInsights(d);
@@ -222,7 +223,7 @@ export default function CrimeMap() {
       })
       .catch(() => setInsightsLoading(false));
 
-    fetch(`/api/map/trends?district=${encodeURIComponent(selected.name)}`)
+    fetch(getApiUrl(`/api/map/trends?district=${encodeURIComponent(selected.name)}`))
       .then(r => r.json())
       .then(d => { setTrends(d); setTrendsLoading(false); })
       .catch(() => setTrendsLoading(false));
@@ -231,7 +232,7 @@ export default function CrimeMap() {
   // ── Gemini advice (async, background) ──
   const fetchAdvice = (distName, riskLevel) => {
     setAdviceLoading(true);
-    fetch(`/api/map/advice?district=${encodeURIComponent(distName)}&risk=${encodeURIComponent(riskLevel)}`)
+    fetch(getApiUrl(`/api/map/advice?district=${encodeURIComponent(distName)}&risk=${encodeURIComponent(riskLevel)}`))
       .then(r => r.json())
       .then(d => { setAdvice(d.explanation || ''); setAdviceLoading(false); })
       .catch(() => {
@@ -247,7 +248,7 @@ export default function CrimeMap() {
     setCompareData(null);
     setShowCompare(true);
     try {
-      const res = await fetch(`/api/map/compare?a=${encodeURIComponent(selected.name)}&b=${encodeURIComponent(otherName)}`);
+      const res = await fetch(getApiUrl(`/api/map/compare?a=${encodeURIComponent(selected.name)}&b=${encodeURIComponent(otherName)}`));
       const data = await res.json();
       setCompareData(data);
       setCompareWith(otherName);
@@ -268,7 +269,7 @@ export default function CrimeMap() {
         youth_unemployment_rate: sliders.youth_unemployment_rate,
         patrol_units_nearby:     sliders.patrol_units_nearby,
       };
-      const res  = await fetch('/api/map/simulate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res  = await fetch(getApiUrl('/api/map/simulate'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const data = await res.json();
       setSimResult(data);
     } catch { setSimResult({ error: 'Simulation failed. Please try again.' }); }

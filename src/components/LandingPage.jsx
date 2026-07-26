@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth, SignInButton, SignUpButton } from '@clerk/react';
+import { useAuth, UserButton, SignInButton, SignUpButton } from '@clerk/react';
 
 export default function LandingPage({ theme, setTheme }) {
   const navigate = useNavigate();
@@ -160,24 +160,68 @@ export default function LandingPage({ theme, setTheme }) {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {isSignedIn ? (
-              <button
-                onClick={() => navigate('/dashboard')}
-                style={{
-                  background: 'linear-gradient(135deg, #00796b, #0284c7)',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '8px 18px',
-                  borderRadius: '6px',
-                  fontWeight: '600',
-                  fontSize: '13.5px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                🏛️ Enter Console
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  style={{
+                    background: 'linear-gradient(135deg, #00796b, #0284c7)',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '8px 18px',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    fontSize: '13.5px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: '0 2px 8px rgba(0, 121, 107, 0.3)'
+                  }}
+                >
+                  🏛️ Enter Console
+                </button>
+
+                <button
+                  onClick={() => {
+                    try {
+                      const auth = useAuth();
+                      if (auth?.signOut) auth.signOut();
+                    } catch (e) {}
+                    window.location.href = '/';
+                  }}
+                  style={{
+                    background: 'rgba(244, 63, 94, 0.15)',
+                    border: '1px solid rgba(244, 63, 94, 0.3)',
+                    color: '#f43f5e',
+                    padding: '7px 14px',
+                    borderRadius: '6px',
+                    fontSize: '12.5px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                  title="Logout from Account"
+                >
+                  🚪 Logout
+                </button>
+
+                <div 
+                  className="notranslate"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    padding: '2px',
+                    borderRadius: '50%',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                  title="User Profile Account"
+                >
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              </div>
             ) : (
               <SignInButton mode="modal">
                 <button

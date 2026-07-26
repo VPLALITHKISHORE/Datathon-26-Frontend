@@ -7,7 +7,7 @@ export default function LandingPage({ theme, setTheme }) {
 
   let isSignedIn = false;
   let isLoaded = true;
-  let signOut = async () => {};
+  let signOut = async () => { };
   try {
     const auth = useAuth();
     isSignedIn = !!auth?.isSignedIn;
@@ -214,7 +214,7 @@ export default function LandingPage({ theme, setTheme }) {
                   🚪 Logout
                 </button>
 
-                <div 
+                <div
                   className="notranslate"
                   style={{
                     display: 'flex',
@@ -563,22 +563,6 @@ export default function LandingPage({ theme, setTheme }) {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* 6. WEBSITES & SERVICES CAROUSEL BAR */}
-      <section style={{ maxWidth: '1400px', margin: '40px auto', padding: '0 30px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <button onClick={() => scrollWebsites(-240)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#fff', border: '1px solid #cbd5e1', cursor: 'pointer', flexShrink: 0 }}>❮</button>
-          <div id="websitesTrack" style={{ display: 'flex', gap: '16px', overflowX: 'auto', scrollBehavior: 'smooth', padding: '10px 4px', scrollbarWidth: 'none' }}>
-            {['e-Governance Websites', 'e-Service Websites', 'Statistics Websites', 'Government Apps', 'Central Govt Websites', 'Technical Websites', 'Kannada Websites'].map((title, i) => (
-              <div key={i} style={{ minWidth: '220px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', textAlign: 'center', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', cursor: 'pointer' }}>
-                <div style={{ width: '46px', height: '46px', margin: '0 auto 12px', borderRadius: '12px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00796b', fontSize: '20px' }}>🏛️</div>
-                <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#0f172a' }}>{title}</div>
-              </div>
-            ))}
-          </div>
-          <button onClick={() => scrollWebsites(240)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#fff', border: '1px solid #cbd5e1', cursor: 'pointer', flexShrink: 0 }}>❯</button>
         </div>
       </section>
 
